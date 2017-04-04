@@ -7,6 +7,8 @@ package nonads;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -16,8 +18,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -26,10 +30,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 
 
 public class Nonads extends Application {
        
+    Button about, help, instructions;
+    FlowPane aboutInfoPane, helpInfoPane, instructionsInfoPane;
+    Scene aboutInfoScene, helpInfoScene, instructionsInfoScene;
+    Stage aboutInfoStage, helpInfoStage, instructionsInfoStage;
+    
     @Override
     public void start(Stage primaryStage) {
         
@@ -76,6 +86,32 @@ public class Nonads extends Application {
 
         Button instructions = new Button("Instructions");
         instructions.setPrefSize(100, 20);
+        instructions.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getSource()==instructions)
+                instructionsInfoStage.showAndWait();
+            else
+                instructionsInfoStage.close();
+           }
+       });
+                     
+        instructions.setPrefSize(100, 20);
+        instructionsInfoPane=new FlowPane();
+        instructionsInfoPane.setVgap(10);
+        //set background color of each Pane
+        instructionsInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
+        //add everything to panes (basically, info)
+        //aboutInfoPane.getChildren().addAll(lblscene2, btnscene2);
+     
+         //make 2 scenes from 2 panes
+        instructionsInfoScene = new Scene(instructionsInfoPane, 400, 500);
+        //make another stage for scene2
+        instructionsInfoStage = new Stage();
+        instructionsInfoStage.setScene(instructionsInfoScene);
+        //tell stage it is meannt to pop-up (Modal)
+        instructionsInfoStage.initModality(Modality.APPLICATION_MODAL);
+        instructionsInfoStage.setTitle("Pop up window");
 
         Button newGame = new Button("New Game");
         newGame.setPrefSize(100, 20);
@@ -89,9 +125,60 @@ public class Nonads extends Application {
         topText.setTextAlignment(TextAlignment.CENTER);
         
         Button about = new Button("About");
+        about.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getSource()==about)
+                aboutInfoStage.showAndWait();
+            else
+                aboutInfoStage.close();
+           }
+       });
+                     
         about.setPrefSize(100, 20);
+        aboutInfoPane=new FlowPane();
+        aboutInfoPane.setVgap(10);
+        //set background color of each Pane
+        aboutInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
+        //add everything to panes (basically, info)
+        //aboutInfoPane.getChildren().addAll(lblscene2, btnscene2);
+     
+         //make 2 scenes from 2 panes
+        aboutInfoScene = new Scene(aboutInfoPane, 400, 500);
+        //make another stage for scene2
+        aboutInfoStage = new Stage();
+        aboutInfoStage.setScene(aboutInfoScene);
+        //tell stage it is meannt to pop-up (Modal)
+        aboutInfoStage.initModality(Modality.APPLICATION_MODAL);
+        aboutInfoStage.setTitle("Pop up window");
         
         Button help = new Button("Need Help?");
+        help.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+        new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            if (e.getSource()==help)
+                aboutInfoStage.showAndWait();
+            else
+                aboutInfoStage.close();
+           }
+       });
+                     
+        help.setPrefSize(100, 20);
+        helpInfoPane=new FlowPane();
+        helpInfoPane.setVgap(10);
+        //set background color of each Pane
+        helpInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
+        //add everything to panes (basically, info)
+        //aboutInfoPane.getChildren().addAll(lblscene2, btnscene2);
+     
+         //make 2 scenes from 2 panes
+        helpInfoScene = new Scene(helpInfoPane, 400, 500);
+        //make another stage for scene2
+        helpInfoStage = new Stage();
+        helpInfoStage.setScene(helpInfoScene);
+        //tell stage it is meannt to pop-up (Modal)
+        helpInfoStage.initModality(Modality.APPLICATION_MODAL);
+        helpInfoStage.setTitle("Pop up window");
         help.setPrefSize(100, 20);
         
         hbox.setAlignment(Pos.CENTER);
@@ -99,6 +186,7 @@ public class Nonads extends Application {
 
         return hbox;
     }
+    
     ////////////////////////////////////////////////////////////////////////////
     
     
@@ -181,8 +269,24 @@ public class Nonads extends Application {
         cb7.setText("Human vs. Computer");
         cb7.setSelected(false);
         cb7.setStyle("-fx-font-size: 18;");
+        
         Button btAdd1 = new Button("Start");
-
+        DropShadow shadow = new DropShadow();
+        //Adding the shadow when the mouse cursor is on
+        btAdd1.addEventHandler(MouseEvent.MOUSE_ENTERED, 
+        new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent e) {
+            btAdd1.setEffect(shadow);
+        }
+    });
+        //Removing the shadow when the mouse cursor is off
+        btAdd1.addEventHandler(MouseEvent.MOUSE_EXITED, 
+        new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent e) {
+            btAdd1.setEffect(null);
+        }
+    });
+        
         pane.add(tileStyle, 1, 2);
         pane.add(flow, 1, 3);
         pane.add(cb4, 1, 4);
@@ -240,4 +344,6 @@ public class Nonads extends Application {
         public static void main(String[] args) {
             launch(args);
         }    
+        
 }
+
