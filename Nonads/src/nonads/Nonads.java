@@ -6,7 +6,6 @@
 package nonads;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -16,7 +15,10 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -31,6 +33,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
+import javafx.util.Callback;
 
 
 public class Nonads extends Application {
@@ -118,10 +121,10 @@ public class Nonads extends Application {
         
         Text topText = new Text();
         topText.setWrappingWidth(500);
-        topText.setFont(Font.font("Verdana", FontWeight.BOLD, 36));
+        topText.setFont(Font.font("Showcard gothic", FontWeight.BOLD, 46));
         topText.setFill(Color.WHITE);
         
-        topText.setText("NONADS");
+        topText.setText("Nonads");
         topText.setTextAlignment(TextAlignment.CENTER);
         
         Button about = new Button("About");
@@ -212,11 +215,65 @@ public class Nonads extends Application {
         flow.setHgap(1);
         flow.setPrefWrapLength(100);
         
-        Text tileStyle = new Text("Select Tile Style");
+        ///////////////////////////////////3333///////////////////////////////
+        Text tileStyle = new Text("Customiziziziziiz");
         tileStyle.setStyle("-fx-text-fill:black;-fx-font-size: 15px;-fx-font-weight: bold;");
         
-        CheckBox cb1 = new CheckBox();
-        cb1.setSelected(false);
+        final ComboBox tileStylesComboBox = new ComboBox();
+        tileStylesComboBox.getItems().addAll(
+            "red",
+            "SailorPluto",
+            "pink",
+            "SatanicManic",
+            "swifty",
+            "IrishLuck",
+            "blach",
+            "other"
+        );
+        tileStylesComboBox.setPromptText("Tile Style");
+        tileStylesComboBox.setValue(null);
+        tileStylesComboBox.setCellFactory(
+        new Callback<ListView<String>, ListCell<String>>() {
+            @Override public ListCell<String> call(ListView<String> param) {
+                final ListCell<String> cell = new ListCell<String>() {
+                    {
+                        super.setPrefWidth(100);
+                    }    
+                    @Override public void updateItem(String item, 
+                        boolean empty) {
+                            super.updateItem(item, empty);
+                            if (item != null) {
+                                setText(item);    
+                                if (item.contains("SatanicManic")|| item.contains("red")) {
+                                    setTextFill(Color.RED);
+                                }
+                                else if (item.contains("IrishLuck")){
+                                    setTextFill(Color.GREEN);
+                                }
+                                else if (item.contains("SailorPluto")){
+                                    setTextFill(Color.BLUE);
+                                }
+                                else {
+                                    setTextFill(Color.BLACK);
+                                }
+                            }
+                            else {
+                                setText(null);
+                            }
+                        }
+            };
+            return cell;
+            }
+        });
+        final ComboBox boardStylesComboBox = new ComboBox();
+        
+        boardStylesComboBox.getItems().addAll(
+            "tabletop",
+            "other",
+            "marble"
+        );
+        boardStylesComboBox.setPromptText("Board Style");
+        boardStylesComboBox.setValue(null);
         
         final ImageView imv = new ImageView();
         imv.setFitHeight(40);
@@ -225,31 +282,9 @@ public class Nonads extends Application {
         imv.setImage(image2);
         final HBox pictureRegion = new HBox();        
         pictureRegion.getChildren().add(imv);     
-    
-        CheckBox cb2 = new CheckBox();
-        cb2.setSelected(false);
         
-        final ImageView imv2 = new ImageView();
-        imv2.setFitHeight(40);
-        imv2.setFitWidth(40);
-        final Image image3 = new Image(Nonads.class.getResourceAsStream("thumb1.png"));
-        imv2.setImage(image3);
-        final HBox pictureRegion2 = new HBox();        
-        pictureRegion2.getChildren().add(imv2);
-        
-        CheckBox cb3 = new CheckBox();
-        cb3.setSelected(false);
-        
-        final ImageView imv3 = new ImageView();
-        imv3.setFitHeight(40);
-        imv3.setFitWidth(40);
-        final Image image4 = new Image(Nonads.class.getResourceAsStream("thumb1.png"));
-        imv3.setImage(image4);
-        final HBox pictureRegion3 = new HBox();        
-        pictureRegion3.getChildren().add(imv3);
-        
-        flow.getChildren().addAll(cb1, pictureRegion, cb2, pictureRegion2, cb3, pictureRegion3);
-        
+
+        /////////////////////////////////////333//////////////////////////
         CheckBox cb4 = new CheckBox();
         cb4.setText("Select From Hand");
         cb4.setSelected(false);
@@ -260,15 +295,67 @@ public class Nonads extends Application {
         cb5.setSelected(false);
         cb5.setStyle("-fx-font-size: 18;");
         
+        FlowPane hvh = new FlowPane();
+        hvh.setPadding(new Insets(1, 0, 1, 0));
+        hvh.setVgap(0);
+        hvh.setHgap(1);
+        hvh.setPrefWrapLength(100);
+
         CheckBox cb6 = new CheckBox();
-        cb6.setText("Human vs. Human");
         cb6.setSelected(false);
         cb6.setStyle("-fx-font-size: 18;");
         
+        final ImageView humanR = new ImageView();
+        humanR.setFitHeight(30);
+        humanR.setFitWidth(30);
+        final Image RedHuman = new Image(Nonads.class.getResourceAsStream("redHuman.png"));
+        humanR.setImage(RedHuman);
+        final HBox pictureRegion0 = new HBox();        
+        pictureRegion0.getChildren().add(humanR);
+        
+        Label vs = new Label("vs ");
+        vs.setStyle("-fx-font-size: 17;");
+                
+        final ImageView humanB = new ImageView();
+        humanB.setFitHeight(30);
+        humanB.setFitWidth(30);
+        final Image BlueHuman = new Image(Nonads.class.getResourceAsStream("blueHuman.png"));
+        humanB.setImage(BlueHuman);
+        final HBox pictureRegionZ = new HBox();        
+        pictureRegionZ.getChildren().add(humanB);
+        
+        hvh.getChildren().addAll(cb6, humanR, vs , humanB);
+        
         CheckBox cb7 = new CheckBox();
-        cb7.setText("Human vs. Computer");
         cb7.setSelected(false);
         cb7.setStyle("-fx-font-size: 18;");
+        
+        FlowPane hvc = new FlowPane();
+        hvc.setPadding(new Insets(1, 0, 1, 0));
+        hvc.setVgap(0);
+        hvc.setHgap(1);
+        hvc.setPrefWrapLength(80);
+        
+        final ImageView humanR2 = new ImageView();
+        humanR2.setFitHeight(30);
+        humanR2.setFitWidth(30);
+        final Image RedHuman2 = new Image(Nonads.class.getResourceAsStream("redHuman.png"));
+        humanR2.setImage(RedHuman2);
+        final HBox pictureRegion3 = new HBox();        
+        pictureRegion3.getChildren().add(humanR2);
+        
+        Label vs2 = new Label("vs ");
+        vs2.setStyle("-fx-font-size: 17;");
+        
+        final ImageView comp = new ImageView();
+        comp.setFitHeight(30);
+        comp.setFitWidth(30);
+        final Image comp1 = new Image(Nonads.class.getResourceAsStream("desktop.png"));
+        comp.setImage(comp1);
+        final HBox pictureRegion2 = new HBox();        
+        pictureRegion2.getChildren().add(comp);
+        
+        hvc.getChildren().addAll(cb7, humanR2, vs2 , comp);
         
         Button btAdd1 = new Button("Start");
         DropShadow shadow = new DropShadow();
@@ -286,13 +373,36 @@ public class Nonads extends Application {
             btAdd1.setEffect(null);
         }
     });
+        btAdd1.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+            if (tileStylesComboBox.getValue() != null && 
+                    boardStylesComboBox.getValue() != null) {
+                System.out.println("it works!");                } 
+            else
+            {
+                if (tileStylesComboBox.getValue() != null && 
+                        boardStylesComboBox.getValue() == null) {
+                  System.out.println("dude! pick a board style!");
+                }
+                if (tileStylesComboBox.getValue() == null && 
+                        boardStylesComboBox.getValue() != null) {
+                  System.out.println("dude! pick a tile style!");
+                }
+                if (tileStylesComboBox.getValue() == null && 
+                        boardStylesComboBox.getValue() == null) {
+                  System.out.println("dude! pick a board and tile style!");
+                }
+            }
+            }
+        });
         
-        pane.add(tileStyle, 1, 2);
-        pane.add(flow, 1, 3);
+        pane.add(boardStylesComboBox, 1, 2);
+        pane.add(tileStylesComboBox, 1, 3);
         pane.add(cb4, 1, 4);
         pane.add(cb5, 1, 5);
-        pane.add(cb6, 1, 6);
-        pane.add(cb7, 1, 7);
+        pane.add(hvh, 1, 6);
+        pane.add(hvc, 1, 7);
         pane.add(player1name, 1, 8);
         pane.add(player2name, 1, 9);
         pane.add(btAdd1, 1, 10);
@@ -346,4 +456,3 @@ public class Nonads extends Application {
         }    
         
 }
-
