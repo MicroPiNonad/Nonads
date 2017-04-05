@@ -1,6 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+* To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package nonads;
@@ -280,18 +278,26 @@ public class Nonads extends Application {
         imv.setFitWidth(40);
         final Image image2 = new Image(Nonads.class.getResourceAsStream("thumb1.png"));
         imv.setImage(image2);
-        final HBox pictureRegion = new HBox();        
-        pictureRegion.getChildren().add(imv);     
+        final HBox pictureRegion6 = new HBox();        
+        pictureRegion6.getChildren().add(imv);  
+        
+        final ImageView imv1 = new ImageView();
+        imv1.setFitHeight(40);
+        imv1.setFitWidth(40);
+        final Image image3 = new Image(Nonads.class.getResourceAsStream("thumb1.png"));
+        imv1.setImage(image3);
+        final HBox pictureRegion7 = new HBox();        
+        pictureRegion7.getChildren().add(imv1);  
         
 
         /////////////////////////////////////333//////////////////////////
         CheckBox cb4 = new CheckBox();
-        cb4.setText("Select From Hand");
+        cb4.setText("View Hand");
         cb4.setSelected(false);
         cb4.setStyle("-fx-font-size: 18;");
         
         CheckBox cb5 = new CheckBox();
-        cb5.setText("Free Tile Selection");
+        cb5.setText("View all Tiles");
         cb5.setSelected(false);
         cb5.setStyle("-fx-font-size: 18;");
         
@@ -398,7 +404,9 @@ public class Nonads extends Application {
         });
         
         pane.add(boardStylesComboBox, 1, 2);
+        pane.add(pictureRegion6, 2, 2);
         pane.add(tileStylesComboBox, 1, 3);
+        pane.add(pictureRegion7, 2, 3);
         pane.add(cb4, 1, 4);
         pane.add(cb5, 1, 5);
         pane.add(hvh, 1, 6);
@@ -456,3 +464,4 @@ public class Nonads extends Application {
         }    
         
 }
+
