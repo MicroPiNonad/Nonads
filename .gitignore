@@ -1,3 +1,5 @@
 /Nonads/build/*
 /dist/*
 /nbproject/*
+*.xml
+*.mf
