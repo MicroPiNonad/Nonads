@@ -3,3 +3,6 @@ Nonads/dist/*
 Nonads/nbproject/*
 *.xml
 *.mf
+*.png
+*.jnlp
+*.jar

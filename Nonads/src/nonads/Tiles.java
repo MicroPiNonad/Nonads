@@ -10,5 +10,7 @@ package nonads;
  * @author Lily
  */
 public class Tiles {
+    private String img;
+    private int orientation;
     
 }
