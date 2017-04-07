@@ -6,3 +6,4 @@ Nonads/nbproject/*
 *.png
 *.jnlp
 *.jar
+/Nonads/JavaFXApplication35/nbproject/private/
