@@ -1,6 +1,8 @@
 Nonads/build/*
 Nonads/dist/*
 Nonads/nbproject/*
+Nonads/bin/*
+Nonads/.project
 *.xml
 *.mf
 *.png
