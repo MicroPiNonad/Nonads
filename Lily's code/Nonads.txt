@@ -36,12 +36,15 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
  
 public class Nonads extends Application {
     
     FlowPane newGamePane, instructionsInfoPane, aboutInfoPane, helpInfoPane;
     Scene newGameScene, instructionsInfoScene, aboutInfoScene, helpInfoScene;
     Stage newGameStage, instructionsInfoStage, aboutInfoStage, helpInfoStage;
+    
  
     public static void main(String[] args) {
         launch(args);
@@ -56,36 +59,68 @@ public class Nonads extends Application {
         root.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 
         MenuBar menuBar = new MenuBar();
-         ////////////////////////////////////////////////////////////////////////
-        Menu menuInstructions = new Menu("Instructions");
-        ////////////////////////////////////////////////////////////////////////
-        Menu menuAbout = new Menu("About");
-        menuAbout.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent t) {
-            if (t.getSource()==menuAbout)
-                aboutInfoStage.showAndWait();
-            else
-                aboutInfoStage.close();
-           }
-       });
          ///////////////////////////////////////////////////////////////////////
+         /////////////////////////INSTRUCTIONS//////////////////////////////////
+        instructionsInfoPane=new FlowPane();
+        instructionsInfoPane.setVgap(10);
+        instructionsInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
+        instructionsInfoScene = new Scene(instructionsInfoPane, 400, 500);
+        
+        Label menuInstructions = new Label("Instructions");
+        menuInstructions.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Stage myDialog = new Stage();
+              myDialog.initModality(Modality.WINDOW_MODAL);
 
+              myDialog.setScene(instructionsInfoScene);
+              myDialog.show();
+        }
+    });
+        Menu instructionsButton = new Menu();
+        instructionsButton.setGraphic(menuInstructions);
+        
+  
+        ////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////ABOUT////////////////////////////////////
         aboutInfoPane=new FlowPane();
         aboutInfoPane.setVgap(10);
         aboutInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
         aboutInfoScene = new Scene(aboutInfoPane, 400, 500);
-        aboutInfoStage = new Stage();
-        aboutInfoStage.setScene(aboutInfoScene);
-        aboutInfoStage.initModality(Modality.APPLICATION_MODAL);
-        aboutInfoStage.setTitle("Pop up window");
+                
+        Label menuAbout = new Label("About");
+        menuAbout.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Stage myDialog = new Stage();
+              myDialog.initModality(Modality.WINDOW_MODAL);
+
+              myDialog.setScene(aboutInfoScene);
+              myDialog.show();
+        }
+    });
+        Menu aboutButton = new Menu();
+        aboutButton.setGraphic(menuAbout);
         ////////////////////////////////////////////////////////////////////////
-        Menu menuHelp = new Menu("Help");
+        ////////////////////////////////HELP////////////////////////////////////
+        helpInfoPane=new FlowPane();
+        helpInfoPane.setVgap(10);
+        helpInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
+        helpInfoScene = new Scene(helpInfoPane, 400, 500);
  
-        final VBox vbox = new VBox();
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setSpacing(10);
-        vbox.setPadding(new Insets(15, 10, 10, 10));
-        
+       Label menuHelp = new Label("Help");
+        menuHelp.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            Stage myDialog = new Stage();
+              myDialog.initModality(Modality.WINDOW_MODAL);
+
+              myDialog.setScene(helpInfoScene);
+              myDialog.show();
+        }
+    });
+        Menu helpButton = new Menu();
+        helpButton.setGraphic(menuHelp);
         //////////////////////title/////////////////////////////////////////////
         Text topText = new Text();
         topText.setWrappingWidth(160);
@@ -361,9 +396,13 @@ public class Nonads extends Application {
         pane.add(cb8, 1, 8);
         pane.add(cb9, 2, 8);
 
+        final VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(10);
+        vbox.setPadding(new Insets(15, 10, 10, 10));
         vbox.getChildren().addAll(topText, pane, btAdd1);  
    
-        menuBar.getMenus().addAll(menuInstructions, menuAbout, menuHelp);
+        menuBar.getMenus().addAll(instructionsButton, aboutButton, helpButton);
         ((VBox) scene.getRoot()).getChildren().addAll(menuBar, vbox);
         primaryStage.setScene(scene);
         primaryStage.show();
