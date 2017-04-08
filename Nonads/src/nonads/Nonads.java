@@ -484,14 +484,14 @@ public class Nonads extends Application {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             String strLine;
             String[] tokens = new String[4];
+            int counter = 0;
 
             //Read File Line By Line
             while ((strLine = br.readLine()) != null)   {
                 // Print the content on the console
-                for(int i=0; i<34; i++){
-                    tokens = strLine.split("\t");
-                    pieces[i] = new Tiles(tokens[0], tokens[1], tokens[2], tokens[3]);
-                }
+                tokens = strLine.split("\t");
+                pieces[counter] = new Tiles(tokens[0], tokens[1], tokens[2], tokens[3]);
+                counter++;
             }
             //Close the input stream
             in.close();
