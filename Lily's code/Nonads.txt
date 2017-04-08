@@ -36,14 +36,12 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
  
 public class Nonads extends Application {
     
     FlowPane newGamePane, instructionsInfoPane, aboutInfoPane, helpInfoPane;
     Scene newGameScene, instructionsInfoScene, aboutInfoScene, helpInfoScene;
-    Stage newGameStage, instructionsInfoStage, aboutInfoStage, helpInfoStage;
+    Stage newGameStage;
     
  
     public static void main(String[] args) {
@@ -52,7 +50,7 @@ public class Nonads extends Application {
  
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Nonads Start Menu");
+        primaryStage.setTitle("Nonads");
         BorderPane root = new BorderPane();
         Scene scene = new Scene(new VBox(),450,450);
         scene.setFill(Color.rgb(10, 110, 255));
@@ -64,13 +62,43 @@ public class Nonads extends Application {
         instructionsInfoPane=new FlowPane();
         instructionsInfoPane.setVgap(10);
         instructionsInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
-        instructionsInfoScene = new Scene(instructionsInfoPane, 400, 500);
+        instructionsInfoPane.setAlignment(Pos.CENTER);
+        instructionsInfoScene = new Scene(instructionsInfoPane, 650, 600);
+        
+        Text instructionsText = new Text(10, 550, "This is a test");
+        instructionsText.setWrappingWidth(550);
+        instructionsText.setText("Tiles: Players share a common set of 34 nonad tiles. Each tile has nine cells in a 3x3 "
+                + "grid, four of which are coloured black. The tiles are shuffled in a deck or hidden in a bag.\n\n" 
+                + "Targets: Each player randomly selects a nonad as their target pattern, which they must match to win "
+                + "the game. The target can exist in any rotation, as shown in the following figure.\n\n" 
+                + "Play: Each player then randomly selects a nonad which becomes their hand tile. Each turn, the mover "
+                + "must play their hand tile in the playing area, then randomly select another nonad from the deck to "
+                + "replenish their hand.\n\n" 
+                + "The first player places their hand tile in the playing area (and replenishes it), then players take "
+                + "turns adding their hand tile adjacent to at least one cell of at least one tile already played (and "
+                + "replenishing it). Tiles cannot overlap and cannot partially touch existing tiles; all tiles must "
+                + "follow an implied square grid when played.\n\n" 
+                + "End: The game is won when a player makes their 3x3 target pattern within the set of played tiles, "
+                + "on their move. Empty spaces do not count as a match; all 3x3 cells must be either white or black "
+                + "according to the target pattern. It does not matter what other target patterns are made.\n\n" 
+                + "Tiebreaker: If the deck runs out before the game is won, then the mover selects a previously played "
+                + "tile as their hand tile – provided that it can be easily slid out – and plays it elsewhere. It is not "
+                + "allowed to move the tile just played by the last player.\n\n" 
+                + "Advanced Version: As per the above rules, except that the mover loses if they make the target pattern "
+                + "of any other player, even if also achieving their own target pattern on the same move. Each losing "
+                + "player is removed from the game (their hand and target tiles go back into the deck). The game is then "
+                + "won either by an outright winner, or if all players except one have been removed.");
+        instructionsText.setFont(new Font(14));
+        
+        instructionsInfoPane.getChildren().add(instructionsText);
         
         Label menuInstructions = new Label("Instructions");
         menuInstructions.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             Stage myDialog = new Stage();
+            myDialog.setTitle("Nonads");
+            myDialog.getIcons().add(new Image(getClass().getResourceAsStream("thumb1.png")));
               myDialog.initModality(Modality.WINDOW_MODAL);
 
               myDialog.setScene(instructionsInfoScene);
@@ -86,13 +114,38 @@ public class Nonads extends Application {
         aboutInfoPane=new FlowPane();
         aboutInfoPane.setVgap(10);
         aboutInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
-        aboutInfoScene = new Scene(aboutInfoPane, 400, 500);
-                
+        aboutInfoScene = new Scene(aboutInfoPane, 420, 500);
+        
+        Text aboutText = new Text(10, 450, "This is a test");
+        aboutText.setWrappingWidth(400);
+        aboutText.setText("The term \"nonads\" refers to sets of nine, rather than any condition suffered by eunuchs. "
+                + "Like many objects described as nonads, each tile is really a triad of triads.\n\n"
+                + "Since designing Nonads, my attention has been drawn to the Haar Hoolim Perception Games (1966) "
+                + "which are a suite of games for 2x3 tiles with cells coloured white or black, "
+                + "and Novi (1988) which is a suite of educational games using a full set of 256 "
+                + "3x3 tiles with cells coloured white or black. It's as if I'm not the first "
+                + "person to discover the 3x3 grid! Neither of these game sets describe the equivalent of Nonads. \n\n"
+                + "Nonads tiles and rules by Cameron Browne (c) 2011.\n\n\n"
+                + "The Nonads game program was developed by MicroPi in 2017");
+        aboutText.setFont(new Font(14));
+        
+        final ImageView logo = new ImageView();
+        logo.setFitHeight(30);
+        logo.setFitWidth(30);
+        final Image micropilogo = new Image(Nonads.class.getResourceAsStream("micropilogo.jpg"));
+        logo.setImage(micropilogo);
+        final HBox pictureLogo = new HBox();        
+        pictureLogo.getChildren().add(logo);
+        
+        aboutInfoPane.getChildren().addAll(aboutText, pictureLogo);
+            
         Label menuAbout = new Label("About");
         menuAbout.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             Stage myDialog = new Stage();
+            myDialog.setTitle("Nonads");
+            myDialog.getIcons().add(new Image(getClass().getResourceAsStream("thumb1.png")));
               myDialog.initModality(Modality.WINDOW_MODAL);
 
               myDialog.setScene(aboutInfoScene);
@@ -106,13 +159,23 @@ public class Nonads extends Application {
         helpInfoPane=new FlowPane();
         helpInfoPane.setVgap(10);
         helpInfoPane.setStyle("-fx-background-color:white;-fx-padding:10px;");
-        helpInfoScene = new Scene(helpInfoPane, 400, 500);
+        helpInfoScene = new Scene(helpInfoPane, 420, 500);
  
-       Label menuHelp = new Label("Help");
+        Text helpText = new Text(10, 450, "This is a test");
+        helpText.setWrappingWidth(400);
+        helpText.setText("A bunch of stuff doesn't work atm due to maintenance, so just use what does."
+                + "Default settings are the best to go with. Sorry for the inconvenience!");
+        helpText.setFont(new Font(14));
+        
+        helpInfoPane.getChildren().addAll(helpText);
+                
+        Label menuHelp = new Label("Help");
         menuHelp.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             Stage myDialog = new Stage();
+            myDialog.setTitle("Nonads");
+            myDialog.getIcons().add(new Image(getClass().getResourceAsStream("thumb1.png")));
               myDialog.initModality(Modality.WINDOW_MODAL);
 
               myDialog.setScene(helpInfoScene);
@@ -131,7 +194,7 @@ public class Nonads extends Application {
         ////////////////////////////////////////////////////////////////////////
         
         CheckBox cb6 = new CheckBox();
-        cb6.setSelected(false);
+        cb6.setSelected(true);
         
         FlowPane hvh = new FlowPane();
         hvh.setPadding(new Insets(1, 0, 1, 0));
@@ -161,7 +224,7 @@ public class Nonads extends Application {
         hvh.getChildren().addAll(cb6, humanR, vs , humanB);
         
         CheckBox cb7 = new CheckBox();
-        cb7.setSelected(true);
+        cb7.setSelected(false);
         
         FlowPane hvc = new FlowPane();
         hvc.setPadding(new Insets(1, 0, 1, 0));
@@ -340,6 +403,7 @@ public class Nonads extends Application {
         newGameStage = new Stage();
         newGameStage.setMaximized(true);
         newGameStage.setScene(newGameScene);
+        newGameStage.getIcons().add(new Image(getClass().getResourceAsStream("thumb1.png")));
         //tell stage it is meannt to pop-up (Modal)
         newGameStage.initModality(Modality.APPLICATION_MODAL);
         newGameStage.setTitle("NONADS");
@@ -405,6 +469,8 @@ public class Nonads extends Application {
         menuBar.getMenus().addAll(instructionsButton, aboutButton, helpButton);
         ((VBox) scene.getRoot()).getChildren().addAll(menuBar, vbox);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("thumb1.png")));
         primaryStage.show();
     }
 }
+ 
