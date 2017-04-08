@@ -1,0 +1,156 @@
+package sample;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
+import javafx.scene.Node;
+import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.event.EventHandler;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.scene.layout.StackPane;
+
+import java.awt.*;
+
+public class Main extends Application {
+    //HOW MANY TILESxTILES (DIMENSION
+    public final int space = 70;
+    public Tile tile_set[][] = new Tile[space][space];
+    public String binary_strings[] = {"123456789", "101101100", "000000000", "101101011", "100100011",
+                                      "110101001", "101010100", "010101010", "101010101", "101010110"};
+    public int turn = 0;
+
+    public void handle(int x, int y){
+        int k = 0;
+        for (int i = y - 1; i <= y + 1; i++){
+            for (int j = x - 1; j <= x + 1; j++) {
+                if (binary_strings[turn].charAt(k) == '1') {
+                    this.tile_set[j][i].drawOne(Character.toString(binary_strings[turn].charAt(k)));
+                } else {
+                    this.tile_set[j][i].drawZero(Character.toString(binary_strings[turn].charAt(k)));
+                }
+                k++;
+            }
+        }
+        turn++;
+        if(turn > 2){
+            turn = 0;
+        }
+    }
+
+    public boolean placeAble(int x, int y){
+        boolean flag = false;
+        if (y == 0 || y == (space - 1) || x == 0 || x == (space - 1)){
+            System.out.println(x);
+            return false;
+        }
+        if (    !this.tile_set[x - 1][y - 1].getText().isEmpty() ||
+                !this.tile_set[x - 1][y].getText().isEmpty() ||
+                !this.tile_set[x - 1][y + 1].getText().isEmpty() ||
+                !this.tile_set[x][y - 1].getText().isEmpty() ||
+                !this.tile_set[x][y].getText().isEmpty() ||
+                !this.tile_set[x][y + 1].getText().isEmpty() ||
+                !this.tile_set[x + 1][y - 1].getText().isEmpty() ||
+                !this.tile_set[x + 1][y].getText().isEmpty() ||
+                !this.tile_set[x + 1][y + 1].getText().isEmpty()
+            ){
+            return false;
+        }
+
+        if (
+                this.tile_set[x - 2][y].getText().isEmpty() &&
+                this.tile_set[x - 2][y + 1].getText().isEmpty() &&
+                this.tile_set[x - 2][y - 1].getText().isEmpty() &&
+                this.tile_set[x][y - 2].getText().isEmpty() &&
+                this.tile_set[x][y + 2].getText().isEmpty() &&
+                this.tile_set[x + 2][y].getText().isEmpty() &&
+                this.tile_set[x + 2][y + 1].getText().isEmpty() &&
+                this.tile_set[x + 2][y - 1].getText().isEmpty() &&
+                this.tile_set[x - 1][y + 2].getText().isEmpty() &&
+                this.tile_set[x - 1][y - 2].getText().isEmpty() &&
+                this.tile_set[x + 1][y + 2].getText().isEmpty() &&
+                this.tile_set[x + 1][y - 2].getText().isEmpty()
+                ) {
+            return false;
+        }
+        return true;
+    }
+
+    private Parent content(){
+        Pane root = new Pane();
+        root.setPrefSize(700, 700);
+
+        for (int i = 0; i < space; i++){
+            for (int j = 0; j < space; j++){
+                Tile tile = new Tile(i, j);
+                tile.setTranslateX(i * 10);
+                tile.setTranslateY(j * 10);
+                tile_set[i][j] = tile;
+                root.getChildren().add(tile);
+            }
+        }
+        return root;
+    }
+
+    @Override
+    public void start(Stage the_grid) throws Exception{
+        Stage rotate = new Stage();
+        the_grid.setResizable(false);
+        the_grid.setScene(new Scene(content()));
+        handle(space/2, space/2);
+        the_grid.show();
+    }
+
+    private  class Tile extends StackPane{
+        private Text text = new Text();
+        public Rectangle border;
+
+        public Tile(int i, int j) {
+            int x = i;
+            int y = j;
+            border = new Rectangle(20, 20);
+            border.setFill(null);
+            border.setStroke(Color.BLACK);
+            setAlignment(Pos.CENTER);
+            getChildren().addAll(border, text);
+
+            setOnMouseClicked(event -> {
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    if (placeAble(x, y)) {
+                        handle(x, y);
+                    }
+                    System.out.print(tile_set[x][y].getText());
+                }
+            });
+        }
+
+        public String getText(){
+            return text.getText();
+        }
+
+        private void drawOne(String i){
+            text.setText(i);
+        }
+
+        private void drawZero(String i){
+            text.setText(i);
+        }
+
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
