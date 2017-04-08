@@ -37,8 +37,13 @@ import javafx.util.Callback;
 
 //used for game pieces
 import java.lang.reflect.Array;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 
 public class Nonads extends Application {
@@ -472,14 +477,26 @@ public class Nonads extends Application {
     Tiles[] pieces = new Tiles[34];
 
     //Assigns strings to each game piece in pieces[]
-    public void setupPieces(Tiles[] pieces)throws IOException{
-        Scanner fileScanner = new Scanner("rotations.txt");
-        String[] tokens = new String[4];
-        int counter = 0;
+    public static void setupPieces(Tiles[] pieces)throws IOException{
+        try{
+            FileInputStream fstream = new FileInputStream("rotations.txt");
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String strLine;
+            String[] tokens = new String[4];
 
-        while(fileScanner.hasNext()) {
-            tokens = fileScanner.nextLine().split("\t");
-            pieces[counter] = new Tiles(tokens[0], tokens[1], tokens[2], tokens[3]);
+            //Read File Line By Line
+            while ((strLine = br.readLine()) != null)   {
+                // Print the content on the console
+                for(int i=0; i<34; i++){
+                    tokens = strLine.split("\t");
+                    pieces[i] = new Tiles(tokens[0], tokens[1], tokens[2], tokens[3]);
+                }
+            }
+            //Close the input stream
+            in.close();
+        }catch (Exception e){//Catch exception if any
+            System.err.println("Error: " + e.getMessage());
         }
     }
     
