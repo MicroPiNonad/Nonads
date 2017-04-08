@@ -35,6 +35,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.util.Callback;
 
+//used for game pieces
+import java.lang.reflect.Array;
+import java.util.Scanner;
+import java.io.IOException;
+
 
 public class Nonads extends Application {
        
@@ -460,10 +465,27 @@ public class Nonads extends Application {
 
         return pane;
     }
+
+    /////////////////////////////////////////////////////////////////////
+
+    //Array that stores all of the game pieces
+    Tiles[] pieces = new Tiles[34];
+
+    //Assigns strings to each game piece in pieces[]
+    public void setupPieces(Tiles[] pieces)throws IOException{
+        Scanner fileScanner = new Scanner("rotations.txt");
+        String[] tokens = new String[4];
+        int counter = 0;
+
+        while(fileScanner.hasNext()) {
+            tokens = fileScanner.nextLine().split("\t");
+            pieces[counter] = new Tiles(tokens[0], tokens[1], tokens[2], tokens[3]);
+        }
+    }
     
         public static void main(String[] args) {
             launch(args);
-        }    
+        }
         
 }
 
