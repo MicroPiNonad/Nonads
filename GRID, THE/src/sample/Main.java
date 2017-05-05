@@ -728,7 +728,7 @@ public class Main extends Application {
         public boolean play;
 
         public Tile(int i, int j, boolean type) {
-            border = new Rectangle(18,18);
+            border = new Rectangle(19,19);
             play = type;
             border.setFill(null);
             border.setStroke(Color.BLACK);
